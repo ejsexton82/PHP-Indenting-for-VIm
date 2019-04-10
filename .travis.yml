@@ -1,0 +1,15 @@
+language: vim
+
+before_script: |
+  git clone https://github.com/junegunn/vader.vim.git
+
+script: |
+  vim -Nu <(cat << VIMRC
+  filetype off
+  set rtp+=vader.vim
+  set rtp^=.
+  filetype plugin indent on
+  syntax enable
+  set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+  let g:PHP_vintage_case_default_indent = 1
+  VIMRC) -c 'Vader! test/*' > /dev/null
