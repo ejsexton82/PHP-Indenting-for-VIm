@@ -418,6 +418,8 @@
 if exists("b:did_indent")
     finish
 endif
+
+runtime! indent/html.vim
 let b:did_indent = 1
 
 "	This script sets the option php_sync_method of PHP syntax script to 0
@@ -468,11 +470,16 @@ else
     let b:PHP_noArrowMatching = 0
 endif
 
-
 if exists("PHP_vintage_case_default_indent") && PHP_vintage_case_default_indent
     let b:PHP_vintage_case_default_indent = 1
 else
     let b:PHP_vintage_case_default_indent = 0
+endif
+
+if exists("PHP_indent_html")
+    let b:PHP_indent_html = PHP_indent_html
+else
+    let b:PHP_indent_html = 0
 endif
 
 
@@ -502,6 +509,9 @@ setlocal nolisp
 
 setlocal indentexpr=GetPhpIndent()
 setlocal indentkeys=0{,0},0),0],:,!^F,o,O,e,*<Return>,=?>,=<?,=*/
+if b:PHP_indent_html
+    setlocal indentkeys+=<>>,{,}
+endif
 
 
 
@@ -1212,7 +1222,18 @@ function! GetPhpIndent()
     " Non PHP code is left as it is
     if 1 > b:InPHPcode && !b:InPHPcode_and_script
 	" DEBUG call DebugPrintReturn(996 . ' ipc? ' . b:InPHPcode . ' ipcs? ' . b:InPHPcode_and_script)
-	return -1
+	if b:PHP_indent_html
+	    let ind = HtmlIndent()
+	    if last_line =~ '[({]\s*?>\s*$'
+		let ind = ind + shiftwidth()
+	    endif
+	    if cline =~ '^\s*<?php\s*[})]'
+		let ind = ind - shiftwidth()
+	    endif
+	    return ind
+	else
+	    return -1
+	endif
     endif
 
     " Align correctly multi // or # lines

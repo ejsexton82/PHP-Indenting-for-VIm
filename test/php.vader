@@ -1,3 +1,7 @@
+Before:
+  set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+  let g:PHP_vintage_case_default_indent = 1
+
 Given php (if-block):
   <?php
       if ($this) {

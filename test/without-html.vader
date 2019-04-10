@@ -1,0 +1,100 @@
+Before:
+  let g:PHP_indent_html = 0
+  let b:PHP_indent_html = 0
+
+Given php (psr-2 if, elseif, else with HTML):
+  <div>
+  <?php if ($expr1) { ?>
+  <p>
+  if body
+  </p>
+  <?php } elseif ($expr2) { ?>
+  <p>// elseif body</p>
+  <?php } else { ?>
+  <p>// else body</p>
+  <?php } ?>
+  </div>
+
+Do (indent psr-2 if, elseif, else):
+  =G
+
+Expect php (indented psr-2 if, elseif, else):
+  <div>
+  <?php if ($expr1) { ?>
+  <p>
+  if body
+  </p>
+  <?php } elseif ($expr2) { ?>
+  <p>// elseif body</p>
+  <?php } else { ?>
+  <p>// else body</p>
+  <?php } ?>
+  </div>
+
+Given php (psr-2 while with HTML):
+  <div>
+  <?php while ($expr) { ?>
+  <p>
+  structure body
+  </p>
+  <?php } ?>
+  </div>
+
+Do (indent psr-2 while with HTML):
+  =G
+
+Expect php (indented psr-2 while with HTML):
+  <div>
+  <?php while ($expr) { ?>
+  <p>
+  structure body
+  </p>
+  <?php } ?>
+  </div>
+
+Given php (psr-2 do while with HTML):
+  <div>
+  <?php do { ?>
+  <p>
+  // structure body;
+  </p>
+  <?php } while ($expr); ?>
+  </div>
+
+Do (indent psr-2 do while with HTML):
+  =G
+
+Expect php (indented psr-2 do while with HTML):
+  <div>
+  <?php do { ?>
+  <p>
+  // structure body;
+  </p>
+  <?php } while ($expr); ?>
+  </div>
+
+Given php (psr-2 for with HTML):
+  <table>
+  <tbody>
+  <?php for ($i = 0; $i < 10; $i++) { ?>
+  <tr>
+  <td>for body</td>
+  </tr>
+  <?php } ?>
+  </tbody>
+  </table>
+
+Do (indent psr-2 for with HTML):
+  =G
+
+Expect php (indented psr-2 for with HTML):
+  <table>
+  <tbody>
+  <?php for ($i = 0; $i < 10; $i++) { ?>
+  <tr>
+  <td>for body</td>
+  </tr>
+  <?php } ?>
+  </tbody>
+  </table>
+
