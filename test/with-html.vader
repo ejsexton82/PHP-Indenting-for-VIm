@@ -2,6 +2,8 @@ Before:
   set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
   let g:PHP_indent_html = 1
   let b:PHP_indent_html = 1
+  let g:PHP_outdentphpescape = 0
+  let b:PHP_outdentphpescape = 0
 
 Given php (psr-2 if, elseif, else with HTML):
   <div>
@@ -98,4 +100,25 @@ Expect php (indented psr-2 for with HTML):
           <?php } ?>
       </tbody>
   </table>
+
+Given php (HTML with PHP block):
+  <div>
+  <?php
+  $two = 1 + 1;
+  if ($two) { ?>
+  <p><?php echo $two; ?></p>
+  <?php } ?>
+  </div>
+
+Do (indent):
+  =G
+
+Expect php (indented HTML with PHP block):
+  <div>
+  <?php
+  $two = 1 + 1;
+  if ($two) { ?>
+      <p><?php echo $two; ?></p>
+  <?php } ?>
+  </div>
 
